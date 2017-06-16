@@ -69,3 +69,21 @@
         this.paddle.render();
       };
 
+
+      // Create Ball
+
+        function Ball(x, y) {
+          this.x = x;
+          this.y = y;
+          this.x_speed = 3;
+          this.y_speed = 0;
+          this.radius = 7;
+        }
+
+        Ball.prototype.render = function() {
+          context.beginPath();
+          context.arc(this.x, this.y, this.radius, 2 * Math.PI, false);
+          context.fillStyle = "#000000";
+          context.fill();
+        };
+
