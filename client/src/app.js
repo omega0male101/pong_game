@@ -27,18 +27,45 @@
     animate(step);
   };
 
-  // //MOVE BALL!!!!
-  //   var update = function() {
-  //     ball.update();
-  //   };
-
-  //   Ball.prototype.update = function() {
-  //     this.x += this.x_speed;
-  //     this.y += this.y_speed;
-  //   };
-
-
   var render = function() {
     context.fillStyle = "#FF00FF";
     context.fillRect(0, 0, width, height);
   };
+
+  ////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////
+
+    // Paddles and the Ball
+    function Paddle(x, y, width, height) {
+      this.x = x;
+      this.y = y;
+      this.width = width;
+      this.height = height;
+      this.x_speed = 0;
+      this.y_speed = 0;
+    }
+
+    Paddle.prototype.render = function() {
+      context.fillStyle = "#0000FF";
+      context.fillRect(this.x, this.y, this.width, this.height);
+    };
+
+    //Create ship objects
+      function Player() {
+         this.paddle = new Paddle(10, 200, 12, 70);
+      }
+
+      function Computer() {
+        this.paddle = new Paddle(878, 200, 12, 70);
+      }
+
+
+      //Render the players - add scores!!
+      Player.prototype.render = function() {
+        this.paddle.render();
+      };
+
+      Computer.prototype.render = function() {
+        this.paddle.render();
+      };
+
