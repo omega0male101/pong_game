@@ -158,6 +158,19 @@ Ball.prototype.render = function () {
   context.fill();
 };
 
+// Build objects
+var player = new Player();
+var computer = new Computer();
+var ball = new Ball(450, 225);
+
+var render = function render() {
+  context.fillStyle = "#FF00FF";
+  context.fillRect(0, 0, width, height);
+  player.render();
+  computer.render();
+  ball.render();
+};
+
 /***/ })
 
 /******/ });
