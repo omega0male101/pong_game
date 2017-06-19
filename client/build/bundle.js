@@ -192,18 +192,18 @@ Ball.prototype.update = function (playerPaddle, computerPaddle) {
   var right_y = this.y + 5;
 
   //Hitting Top/Bottom Edges..
-  if (this.x + 5 < 0) {
+  if (this.y + 5 < 0) {
     // hitting the top wall
-    this.x = 5;
-    this.x_speed = -this.x_speed;
-  } else if (this.x + 5 > 900) {
+    this.y = 5;
+    this.y_speed = -this.y_speed;
+  } else if (this.y + 5 > 450) {
     // hitting the bottom wall
-    this.x = 895;
-    this.x_speed = -this.x_speed;
+    this.y = 445;
+    this.y_speed = -this.y_speed;
   }
 
   //Hitting wall and scoring a point
-  if (this.x < 0 || this.x > 450) {
+  if (this.x < 0 || this.x > 900) {
     this.x_speed = -3;
     this.y_speed = 0;
     this.x = 450;
@@ -224,9 +224,9 @@ Ball.prototype.update = function (playerPaddle, computerPaddle) {
   } else {
     if (left_x < playerPaddle.x + playerPaddle.width && right_y > playerPaddle.y && left_y < playerPaddle.y + playerPaddle.height && right_x > playerPaddle.x) {
       // hit the player's paddle
+      this.x += this.x_speed;
       this.x_speed = +3;
       this.y_speed += playerPaddle.y_speed / 2;
-      this.x += this.x_speed;
     }
   }
 };
