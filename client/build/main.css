@@ -1,0 +1,13 @@
+body {
+  background-color: grey;
+
+}
+
+#canvas{
+  margin:auto;
+  position:relative;
+  background-color: blue;
+  border: solid;
+  border-color: black;
+  border-width: 2px;
+}
