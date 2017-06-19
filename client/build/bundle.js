@@ -74,10 +74,17 @@
 "use strict";
 
 
+// var update = require('./update')
 //Refresh at 60 frames each second
 var animate = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function (callback) {
   window.setTimeout(callback, 1000 / 60);
 };
+
+//score
+// var score = document.createElement('p');
+//   score.setAttribute("id", "score");
+
+//   document.getElementById('score').innerHTML = "You pressed button 1";
 
 //Create Canvas
 var canvas = document.createElement('canvas');
@@ -93,6 +100,7 @@ var context = canvas.getContext('2d');
 //Load page using the animate method followed by our step method to update objects inside canvas
 window.onload = function () {
   document.body.appendChild(canvas);
+  // document.body.appendChild(score);
   animate(step);
 };
 
@@ -143,7 +151,7 @@ Computer.prototype.render = function () {
 function Ball(x, y) {
   this.x = x;
   this.y = y;
-  this.x_speed = -3;
+  this.x_speed = -4;
   this.y_speed = 0;
   this.radius = 9;
 }
@@ -172,9 +180,6 @@ var render = function render() {
 ///////////////////////ANIMATIONS///////////////////////////
 ////////////////////////////////////////////////////////////
 
-// var width = 400;      x   / 900
-// var height = 600;    y    / 450
-
 
 var update = function update() {
   player.update();
@@ -186,10 +191,10 @@ Ball.prototype.update = function (playerPaddle, computerPaddle) {
   this.y += this.y_speed;
   this.x += this.x_speed;
 
-  var left_x = this.x - 5;
-  var left_y = this.y - 5;
-  var right_x = this.x + 5;
-  var right_y = this.y + 5;
+  var leftEdge_X = this.x - 5;
+  var leftEdge_Y = this.y - 5;
+  var rightEdge_X = this.x + 5;
+  var rightEdge_Y = this.y + 5;
 
   //Hitting Top/Bottom Edges..
   if (this.y + 5 < 0) {
@@ -204,31 +209,38 @@ Ball.prototype.update = function (playerPaddle, computerPaddle) {
 
   //Hitting wall and scoring a point
   if (this.x < 0 || this.x > 900) {
-    this.x_speed = -3;
+    this.x_speed = -4;
     this.y_speed = 0;
     this.x = 450;
     this.y = 225;
   }
 
   //Paddle Dynamics
-  //----Computer Paddle
-  if (left_y > 225) {
-    if (left_y < computerPaddle.y + computerPaddle.height && right_y > computerPaddle.y && left_x < computerPaddle.x + computerPaddle.width && right_x > computerPaddle.x) {
-      // hit the computer's paddle
-      this.y_speed = +3;
-      this.x_speed += computerPaddle.x_speed / 2;
-      this.y += this.y_speed;
-    }
-
-    //Player Paddle
-  } else {
-    if (left_x < playerPaddle.x + playerPaddle.width && right_y > playerPaddle.y && left_y < playerPaddle.y + playerPaddle.height && right_x > playerPaddle.x) {
+  //Player Paddle
+  if (leftEdge_X < 450) {
+    console.log(leftEdge_X);
+    console.log(playerPaddle.x + playerPaddle.width);
+    console.log("Left hand side");
+    if (leftEdge_X < playerPaddle.x + playerPaddle.width && rightEdge_Y > playerPaddle.y && leftEdge_Y < playerPaddle.y + playerPaddle.height && rightEdge_X > playerPaddle.x) {
       // hit the player's paddle
       this.x += this.x_speed;
-      this.x_speed = +3;
+      this.x_speed = 4;
       this.y_speed += playerPaddle.y_speed / 2;
     }
   }
+
+  //Computer
+  else {
+      console.log("Right hand side");
+      console.log(leftEdge_X);
+      console.log(computerPaddle.x + computerPaddle.width);
+      if (leftEdge_X > computerPaddle.x + computerPaddle.width - 15 && rightEdge_Y > computerPaddle.y && leftEdge_Y < computerPaddle.y + computerPaddle.height && rightEdge_X > computerPaddle.x) {
+        // hit the computer's paddle
+        this.x_speed = -4;
+        this.y_speed += computerPaddle.y_speed / 2;
+        this.x += this.x_speed;
+      }
+    }
 };
 
 Paddle.prototype.move = function (y, x) {
