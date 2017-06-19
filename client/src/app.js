@@ -1,5 +1,6 @@
 // var update = require('./update')
 
+
 /////////////////////////////////////////////////////
 //------------------Starting App-------------------//
 
@@ -15,6 +16,10 @@
     document.body.appendChild(canvas);
     // document.body.appendChild(score);
     animate(step);
+
+    var audio1 = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
+    audio1.play()
+    audio1.volume=0.2;
   };
 
   var step = function() {
@@ -104,7 +109,7 @@
   function Ball(x, y) {
     this.x = x;
     this.y = y;
-    this.x_speed = -4;
+    this.x_speed = -5;
     this.y_speed = 0;
     this.radius = 9;
   }
@@ -151,7 +156,8 @@ var keysDown = {};
 //----------------------KeyBoard Controls-------------------//
 //////////////////////////////////////////////////////////////
 
-
+var beep = new Audio('./public/Boop.wav');
+var boop = new Audio('./public/Beep.wav');
 
 ////////////////////////////////////////////////////////////////////
 //-=-=-=-=-=-=-=-=-=-=-Game Logic & Animations-=-=-=-=-=-=-=-=-=-=//
@@ -176,11 +182,12 @@ var keysDown = {};
 
     //----Ball Hitting wall and scoring a point----//
     if(this.x < 0 || this.x > 900) {
-      this.x_speed = -4;
+      this.x_speed = -5;
       this.y_speed = 0;
       this.x = 450;
       this.y = 225;
     }
+    
 
     //------Ball Collition Dynamics------//
     
@@ -197,6 +204,7 @@ var keysDown = {};
           this.x += this.x_speed;                     // Add Speed to ball
           this.x_speed = 4;                           // Change X Direction
           this.y_speed += (playerPaddle.y_speed / 2); // Change Y Direction
+          boop.play();
         }
       }
 
@@ -213,6 +221,7 @@ var keysDown = {};
           this.x_speed = -4;                            // Change X Direction
           this.y_speed += (computerPaddle.y_speed / 2); // Change Y Direction
           this.x += this.x_speed;                       // Add Speed to ball
+          beep.play();
         }
       }
   };
