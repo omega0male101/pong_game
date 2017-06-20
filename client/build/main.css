@@ -63,6 +63,14 @@ div {
     #audio-toggle{
       width: 2em;
       height: 2em;
+      /*background-color: brown;*/
+    }
+
+    #audio-text{
+      vertical-align: top;
+      padding-right:0.6em;
+      position: relative;
+      top: 0.5em;
     }
 
   #tone-div{
@@ -74,4 +82,11 @@ div {
       width: 40px;
       height: 40px;
       /*background-color: green;*/
+    }
+
+    #tone-text{
+      vertical-align: top;
+      padding-left:0.4em;
+      position: relative;
+      top: 0.55em;
     }

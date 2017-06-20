@@ -113,6 +113,8 @@ window.onload = function () {
   topWrapper.appendChild(scoreComputerDiv);
 
   toneDiv.appendChild(toneToggle);
+  toneDiv.appendChild(toneText);
+  audioDiv.appendChild(audioText);
   audioDiv.appendChild(audioToggle);
 
   bottomWrapper.appendChild(toneDiv);
@@ -424,8 +426,16 @@ bottomWrapper.setAttribute("id", "bottom-main-wrapper");
 var toneDiv = document.createElement('div');
 toneDiv.setAttribute("id", "tone-div");
 
+var toneText = document.createElement('span');
+toneText.setAttribute("id", "tone-text");
+toneText.innerText = "TOGGLE TONE";
+
 var audioDiv = document.createElement('div');
 audioDiv.setAttribute("id", "audio-div");
+
+var audioText = document.createElement('span');
+audioText.setAttribute("id", "audio-text");
+audioText.innerText = "MUTE MUSIC";
 
 var toneToggle = document.createElement('img');
 toneToggle.setAttribute("id", "tone-toggle");

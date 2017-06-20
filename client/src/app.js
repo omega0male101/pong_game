@@ -41,7 +41,10 @@
     topWrapper.appendChild(scoreComputerDiv);
     
     toneDiv.appendChild(toneToggle);
+    toneDiv.appendChild(toneText);
+    audioDiv.appendChild(audioText);
     audioDiv.appendChild(audioToggle);
+    
 
     bottomWrapper.appendChild(toneDiv);
     bottomWrapper.appendChild(audioDiv);
@@ -358,8 +361,16 @@ let keysDown = {};
  let toneDiv = document.createElement('div')
   toneDiv.setAttribute("id", "tone-div");
 
+  let toneText = document.createElement('span')
+   toneText.setAttribute("id", "tone-text");
+   toneText.innerText = "TOGGLE TONE"
+
  let audioDiv = document.createElement('div')
   audioDiv.setAttribute("id", "audio-div");
+
+  let audioText = document.createElement('span')
+   audioText.setAttribute("id", "audio-text");
+   audioText.innerText = "MUTE MUSIC"
 
  let toneToggle = document.createElement('img');
    toneToggle.setAttribute("id", "tone-toggle");
