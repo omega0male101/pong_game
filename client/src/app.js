@@ -1,11 +1,11 @@
-// var update = require('./update')
+// let update = require('./update')
 
 
 /////////////////////////////////////////////////////
 //------------------Starting App-------------------//
 
   //<<Refresh at 60 frames each second>>
-  var animate = window.requestAnimationFrame ||
+  let animate = window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
     window.mozRequestAnimationFrame ||
      function(callback) { window.setTimeout(callback, 1000/60) };
@@ -13,36 +13,66 @@
   //Load page using the animate method followed by our step method to update objects inside canvas
 
   window.onload = function() {
+
+
+    //Toggle the Backgroud Audio On & Off
+    let audioToggle = document.createElement('img');
+      audioToggle.setAttribute("id", "audio-toggle");
+      audioToggle.src = "./public/Images/volume_on.png";
+
+      let isAudioEnabled = true;
+      audioToggle.addEventListener("click", function() {
+        if(isAudioEnabled) {
+          audioToggle.src = "./public/Images/volume_on.png";
+          audio1.play()
+        }else{
+          audioToggle.src = "./public/Images/volume_off.png";
+          audio1.pause()
+        }
+        isAudioEnabled = !isAudioEnabled;
+      });
+
+
+    //Appending all elements to HTML page
     
     canvasContainerDiv.appendChild(canvas);
-    document.body.appendChild(canvasContainerDiv);
-    document.body.appendChild(scorePlayerDiv);
-    document.body.appendChild(scoreComputerDiv);
+    topWrapper.appendChild(scorePlayerDiv);
+    topWrapper.appendChild(canvasContainerDiv);
+    topWrapper.appendChild(scoreComputerDiv);
+    
+    toneDiv.appendChild(toneToggle);
+    audioDiv.appendChild(audioToggle);
+
+    bottomWrapper.appendChild(toneDiv);
+    bottomWrapper.appendChild(audioDiv);
+
+    document.body.appendChild(topWrapper);
+    document.body.appendChild(bottomWrapper);
       
-      scorePlayerDiv.innerText = "Player Score: " + 0
-      scoreComputerDiv.innerText = "Computer Score: " + 0
+      scorePlayerDiv.innerText = "" + 0
+      scoreComputerDiv.innerText = "" + 0
 
     animate(step);
 
     //Background Music
-    var audio1 = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
+    let audio1 = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
     audio1.play()
     audio1.volume=0.2;
   };
 
-  var step = function() {
+  let step = function() {
     update();
     render();
     animate(step);
   };
 
-  var update = function() {
+  let update = function() {
     player.update();
     computer.update(ball);
     ball.update(player.paddle, computer.paddle);
   };
 
-  var render = function() {
+  let render = function() {
     context.fillStyle = "#000000";
     context.fillRect(0, 0, width, height);
     player.render();
@@ -58,21 +88,21 @@
 /////////////////////////////////////////////////////////
 //------------------Creating Objects-------------------//
 
-    var canvas = document.createElement('canvas');
-    var width = 900;
-    var height = 450;
+    let canvas = document.createElement('canvas');
+    let width = 900;
+    let height = 450;
       canvas.width = width;
       canvas.height = height;
       canvas.setAttribute("id", "canvas");
       canvas.fillStyle = "#000000";
 
-    var context = canvas.getContext('2d');
+    let context = canvas.getContext('2d');
 
 
   // Build objects
-    var player = new Player();
-    var computer = new Computer();
-    var ball = new Ball(450, 225);
+    let player = new Player();
+    let computer = new Computer();
+    let ball = new Ball(450, 225);
 
 
   //Create ship objects
@@ -138,8 +168,8 @@
 //----------------------KeyBoard Controls-------------------//
 
 Player.prototype.update = function() {
-  for(var key in keysDown) {
-    var value = Number(key);
+  for(let key in keysDown) {
+    let value = Number(key);
 
     if(value == 38) { // 'up' arrow
       this.paddle.move(-4, 0);
@@ -151,7 +181,7 @@ Player.prototype.update = function() {
   }
 };
 
-var keysDown = {};
+let keysDown = {};
 
   window.addEventListener("keydown", function(event) {
     keysDown[event.keyCode] = true;
@@ -164,13 +194,15 @@ var keysDown = {};
 //----------------------KeyBoard Controls-------------------//
 //////////////////////////////////////////////////////////////
 
-  //Sound Dependencies
-  var beep = new Audio('./public/Sounds/Boop.wav');
-  var boop = new Audio('./public/Sounds/Beep.wav');
+  /////////////Sound Dependencies/////////////////
+  let beep = new Audio('./public/Sounds/Boop.wav');
+  let boop = new Audio('./public/Sounds/Beep.wav');
+  let winner = new Audio('./public/Sounds/Tasty_Shot.wav');
+  let loser = new Audio('./public/Sounds/Better_Luck.wav');
 
   //Score Records
-  var playerScore = 0;
-  var computerScore = 0;
+  let playerScore = 0;
+  let computerScore = 0;
 
 ////////////////////////////////////////////////////////////////////
 //-=-=-=-=-=-=-=-=-=-=-Game Logic & Animations-=-=-=-=-=-=-=-=-=-=//
@@ -179,10 +211,10 @@ var keysDown = {};
     this.y += this.y_speed;
     this.x += this.x_speed;
 
-    var ballLeft_X = this.x - 5;
-    var ballLeft_Y = this.y - 5;
-    var ballRight_X = this.x + 5;
-    var ballRight_Y = this.y + 5;
+    let ballLeft_X = this.x - 5;
+    let ballLeft_Y = this.y - 5;
+    let ballRight_X = this.x + 5;
+    let ballRight_Y = this.y + 5;
 
 
     //----Ball Hitting Top/Bottom Edges----//
@@ -197,7 +229,8 @@ var keysDown = {};
     //Scores
     if(this.x < 0) { // adding score
       computerScore += 1;
-      scoreComputerDiv.innerText = "Computer Score: " + computerScore;
+      loser.play();
+      scoreComputerDiv.innerText = "" + computerScore;
       console.log('player score')
       this.x_speed = -5;
       this.y_speed = 0;
@@ -207,7 +240,8 @@ var keysDown = {};
     else if(this.x > 900) { // adding score
       
       playerScore += 1;
-      scorePlayerDiv.innerText = "Player Score: " + playerScore;
+      winner.play();
+      scorePlayerDiv.innerText = "" + playerScore;
       console.log('computer score')
       this.x_speed = -5;
       this.y_speed = 0;
@@ -276,8 +310,8 @@ var keysDown = {};
       
   //<<Computer Paddle Movements - (Centering)>>
   Computer.prototype.update = function(ball) {
-    var y_pos = ball.y;
-    var diff = -((this.paddle.y + (this.paddle.height / 2)) - y_pos);
+    let y_pos = ball.y;
+    let diff = -((this.paddle.y + (this.paddle.height / 2)) - y_pos);
 
     //Speed of paddle movement
       if(diff < 0 && diff < -4) { //Speed going to top
@@ -306,14 +340,46 @@ var keysDown = {};
 //----------------------Features-------------------//
 
     
-   var scorePlayerDiv = document.createElement('div');
-     scorePlayerDiv.setAttribute("id", "scorePlayer");
+ let scorePlayerDiv = document.createElement('div');
+   scorePlayerDiv.setAttribute("id", "scorePlayer");
 
-   var scoreComputerDiv = document.createElement('div');
-     scoreComputerDiv.setAttribute("id", "scoreComputer");
+ let scoreComputerDiv = document.createElement('div');
+   scoreComputerDiv.setAttribute("id", "scoreComputer");
 
-   var canvasContainerDiv = document.createElement('div');
-     canvasContainerDiv.setAttribute("id", "canvasContainer");
+ let canvasContainerDiv = document.createElement('div');
+   canvasContainerDiv.setAttribute("id", "canvasContainer");
+
+ let topWrapper = document.createElement('div');
+   topWrapper.setAttribute("id", "top-main-wrapper");
+
+ let bottomWrapper = document.createElement('div');
+   bottomWrapper.setAttribute("id", "bottom-main-wrapper");
+
+ let toneDiv = document.createElement('div')
+  toneDiv.setAttribute("id", "tone-div");
+
+ let audioDiv = document.createElement('div')
+  audioDiv.setAttribute("id", "audio-div");
+
+ let toneToggle = document.createElement('img');
+   toneToggle.setAttribute("id", "tone-toggle");
+   toneToggle.src = "./public/Images/minus.png";
+
+    let isToneEnabled = true;
+
+    toneToggle.addEventListener("click", function() {
+      if(isToneEnabled) {
+        toneToggle.src = "./public/Images/plus.png";
+        boop.src = ('./public/Sounds/LowBeep.wav')
+        beep.src = ('./public/Sounds/LowBoop.wav')
+      }else{
+        toneToggle.src = "./public/Images/minus.png";
+        boop.src = ('./public/Sounds/Beep.wav')
+        beep.src = ('./public/Sounds/Boop.wav')
+      }
+      isToneEnabled = !isToneEnabled;
+    });
+
 
 
 //----------------------Features-------------------//

@@ -73,7 +73,7 @@
 "use strict";
 
 
-// var update = require('./update')
+// let update = require('./update')
 
 
 /////////////////////////////////////////////////////
@@ -88,13 +88,41 @@ var animate = window.requestAnimationFrame || window.webkitRequestAnimationFrame
 
 window.onload = function () {
 
-  canvasContainerDiv.appendChild(canvas);
-  document.body.appendChild(canvasContainerDiv);
-  document.body.appendChild(scorePlayerDiv);
-  document.body.appendChild(scoreComputerDiv);
+  //Toggle the Backgroud Audio On & Off
+  var audioToggle = document.createElement('img');
+  audioToggle.setAttribute("id", "audio-toggle");
+  audioToggle.src = "./public/Images/volume_on.png";
 
-  scorePlayerDiv.innerText = "Player Score: " + 0;
-  scoreComputerDiv.innerText = "Computer Score: " + 0;
+  var isAudioEnabled = true;
+  audioToggle.addEventListener("click", function () {
+    if (isAudioEnabled) {
+      audioToggle.src = "./public/Images/volume_on.png";
+      audio1.play();
+    } else {
+      audioToggle.src = "./public/Images/volume_off.png";
+      audio1.pause();
+    }
+    isAudioEnabled = !isAudioEnabled;
+  });
+
+  //Appending all elements to HTML page
+
+  canvasContainerDiv.appendChild(canvas);
+  topWrapper.appendChild(scorePlayerDiv);
+  topWrapper.appendChild(canvasContainerDiv);
+  topWrapper.appendChild(scoreComputerDiv);
+
+  toneDiv.appendChild(toneToggle);
+  audioDiv.appendChild(audioToggle);
+
+  bottomWrapper.appendChild(toneDiv);
+  bottomWrapper.appendChild(audioDiv);
+
+  document.body.appendChild(topWrapper);
+  document.body.appendChild(bottomWrapper);
+
+  scorePlayerDiv.innerText = "" + 0;
+  scoreComputerDiv.innerText = "" + 0;
 
   animate(step);
 
@@ -235,9 +263,11 @@ window.addEventListener("keyup", function (event) {
 //----------------------KeyBoard Controls-------------------//
 //////////////////////////////////////////////////////////////
 
-//Sound Dependencies
+/////////////Sound Dependencies/////////////////
 var beep = new Audio('./public/Sounds/Boop.wav');
 var boop = new Audio('./public/Sounds/Beep.wav');
+var winner = new Audio('./public/Sounds/Tasty_Shot.wav');
+var loser = new Audio('./public/Sounds/Better_Luck.wav');
 
 //Score Records
 var playerScore = 0;
@@ -270,7 +300,8 @@ Ball.prototype.update = function (playerPaddle, computerPaddle) {
   if (this.x < 0) {
     // adding score
     computerScore += 1;
-    scoreComputerDiv.innerText = "Computer Score: " + computerScore;
+    loser.play();
+    scoreComputerDiv.innerText = "" + computerScore;
     console.log('player score');
     this.x_speed = -5;
     this.y_speed = 0;
@@ -280,7 +311,8 @@ Ball.prototype.update = function (playerPaddle, computerPaddle) {
     // adding score
 
     playerScore += 1;
-    scorePlayerDiv.innerText = "Player Score: " + playerScore;
+    winner.play();
+    scorePlayerDiv.innerText = "" + playerScore;
     console.log('computer score');
     this.x_speed = -5;
     this.y_speed = 0;
@@ -382,6 +414,37 @@ scoreComputerDiv.setAttribute("id", "scoreComputer");
 
 var canvasContainerDiv = document.createElement('div');
 canvasContainerDiv.setAttribute("id", "canvasContainer");
+
+var topWrapper = document.createElement('div');
+topWrapper.setAttribute("id", "top-main-wrapper");
+
+var bottomWrapper = document.createElement('div');
+bottomWrapper.setAttribute("id", "bottom-main-wrapper");
+
+var toneDiv = document.createElement('div');
+toneDiv.setAttribute("id", "tone-div");
+
+var audioDiv = document.createElement('div');
+audioDiv.setAttribute("id", "audio-div");
+
+var toneToggle = document.createElement('img');
+toneToggle.setAttribute("id", "tone-toggle");
+toneToggle.src = "./public/Images/minus.png";
+
+var isToneEnabled = true;
+
+toneToggle.addEventListener("click", function () {
+  if (isToneEnabled) {
+    toneToggle.src = "./public/Images/plus.png";
+    boop.src = './public/Sounds/LowBeep.wav';
+    beep.src = './public/Sounds/LowBoop.wav';
+  } else {
+    toneToggle.src = "./public/Images/minus.png";
+    boop.src = './public/Sounds/Beep.wav';
+    beep.src = './public/Sounds/Boop.wav';
+  }
+  isToneEnabled = !isToneEnabled;
+});
 
 //----------------------Features-------------------//
 /////////////////////////////////////////////////////
