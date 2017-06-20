@@ -63,12 +63,11 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 83);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ 83:
+/******/ ([
+/* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -88,10 +87,18 @@ var animate = window.requestAnimationFrame || window.webkitRequestAnimationFrame
 //Load page using the animate method followed by our step method to update objects inside canvas
 
 window.onload = function () {
-  document.body.appendChild(canvas);
-  // document.body.appendChild(score);
+
+  canvasContainerDiv.appendChild(canvas);
+  document.body.appendChild(canvasContainerDiv);
+  document.body.appendChild(scorePlayerDiv);
+  document.body.appendChild(scoreComputerDiv);
+
+  scorePlayerDiv.innerText = "Player Score: " + 0;
+  scoreComputerDiv.innerText = "Computer Score: " + 0;
+
   animate(step);
 
+  //Background Music
   var audio1 = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
   audio1.play();
   audio1.volume = 0.2;
@@ -228,8 +235,13 @@ window.addEventListener("keyup", function (event) {
 //----------------------KeyBoard Controls-------------------//
 //////////////////////////////////////////////////////////////
 
-var beep = new Audio('./public/Boop.wav');
-var boop = new Audio('./public/Beep.wav');
+//Sound Dependencies
+var beep = new Audio('./public/Sounds/Boop.wav');
+var boop = new Audio('./public/Sounds/Beep.wav');
+
+//Score Records
+var playerScore = 0;
+var computerScore = 0;
 
 ////////////////////////////////////////////////////////////////////
 //-=-=-=-=-=-=-=-=-=-=-Game Logic & Animations-=-=-=-=-=-=-=-=-=-=//
@@ -254,8 +266,22 @@ Ball.prototype.update = function (playerPaddle, computerPaddle) {
     this.y_speed = -this.y_speed;
   }
 
-  //----Ball Hitting wall and scoring a point----//
-  if (this.x < 0 || this.x > 900) {
+  //Scores
+  if (this.x < 0) {
+    // adding score
+    computerScore += 1;
+    scoreComputerDiv.innerText = "Computer Score: " + computerScore;
+    console.log('player score');
+    this.x_speed = -5;
+    this.y_speed = 0;
+    this.x = 450;
+    this.y = 225;
+  } else if (this.x > 900) {
+    // adding score
+
+    playerScore += 1;
+    scorePlayerDiv.innerText = "Player Score: " + playerScore;
+    console.log('computer score');
     this.x_speed = -5;
     this.y_speed = 0;
     this.x = 450;
@@ -266,28 +292,28 @@ Ball.prototype.update = function (playerPaddle, computerPaddle) {
 
   if (ballLeft_X < 450) {
     // To asses which side the ball is at.
-    console.log("Left hand side"
+    // console.log("Left hand side")
 
     //<<<<<<<<<<<<<<PLAYER TURN>>>>>>>>>>>>//
-    );if (ballLeft_X < playerPaddle.x + playerPaddle.width && ballRight_Y > playerPaddle.y && ballLeft_Y < playerPaddle.y + playerPaddle.height && ballRight_X > playerPaddle.x) {
+    if (ballLeft_X < playerPaddle.x + playerPaddle.width && ballRight_Y > playerPaddle.y && ballLeft_Y < playerPaddle.y + playerPaddle.height && ballRight_X > playerPaddle.x) {
 
       // On collition
+      boop.play();
       this.x += this.x_speed; // Add Speed to ball
       this.x_speed = 4; // Change X Direction
       this.y_speed += playerPaddle.y_speed / 2; // Change Y Direction
-      boop.play();
     }
   } else {
-    console.log("Right hand side"
+    // console.log("Right hand side")
 
     //<<<<<<<<<<<<<<COMPUTER TURN>>>>>>>>>>>>//
-    );if (ballLeft_X > computerPaddle.x + computerPaddle.width - 15 && ballRight_Y > computerPaddle.y && ballLeft_Y < computerPaddle.y + computerPaddle.height && ballRight_X > computerPaddle.x) {
+    if (ballLeft_X > computerPaddle.x + computerPaddle.width - 15 && ballRight_Y > computerPaddle.y && ballLeft_Y < computerPaddle.y + computerPaddle.height && ballRight_X > computerPaddle.x) {
 
       // On collition
+      beep.play();
       this.x_speed = -4; // Change X Direction
       this.y_speed += computerPaddle.y_speed / 2; // Change Y Direction
       this.x += this.x_speed; // Add Speed to ball
-      beep.play();
     }
   }
 };
@@ -348,10 +374,18 @@ Computer.prototype.update = function (ball) {
 //----------------------Features-------------------//
 
 
+var scorePlayerDiv = document.createElement('div');
+scorePlayerDiv.setAttribute("id", "scorePlayer");
+
+var scoreComputerDiv = document.createElement('div');
+scoreComputerDiv.setAttribute("id", "scoreComputer");
+
+var canvasContainerDiv = document.createElement('div');
+canvasContainerDiv.setAttribute("id", "canvasContainer");
+
 //----------------------Features-------------------//
 /////////////////////////////////////////////////////
 
 /***/ })
-
-/******/ });
+/******/ ]);
 //# sourceMappingURL=bundle.js.map

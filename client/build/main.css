@@ -1,13 +1,28 @@
 body {
-  background-color: grey;
+  background-color: black;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center; 
+  background-size: 100%;
 
 }
 
-#canvas{
+#canvasContainer{
+
   margin:auto;
-  position:relative;
+  text-align:center;
+  width: 70%;
+}
+
+#canvas{
+
   background-color: blue;
   border: solid;
-  border-color: black;
+  border-color: white;
   border-width: 2px;
+  width:99%;
+}
+
+div {
+  color: white;
 }
