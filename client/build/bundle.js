@@ -73,9 +73,6 @@
 "use strict";
 
 
-// let update = require('./update')
-
-
 /////////////////////////////////////////////////////
 //------------------Starting App-------------------//
 
@@ -106,17 +103,14 @@ window.onload = function () {
   });
 
   //Appending all elements to HTML page
-
   canvasContainerDiv.appendChild(canvas);
   topWrapper.appendChild(scorePlayerDiv);
   topWrapper.appendChild(canvasContainerDiv);
   topWrapper.appendChild(scoreComputerDiv);
-
   toneDiv.appendChild(toneToggle);
   toneDiv.appendChild(toneText);
   audioDiv.appendChild(audioText);
   audioDiv.appendChild(audioToggle);
-
   bottomWrapper.appendChild(toneDiv);
   bottomWrapper.appendChild(audioDiv);
 
@@ -131,7 +125,7 @@ window.onload = function () {
   //Background Music
   var audio1 = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
   audio1.play();
-  audio1.volume = 0.2;
+  audio1.volume = 0.1;
 };
 
 var step = function step() {
@@ -168,6 +162,7 @@ canvas.width = width;
 canvas.height = height;
 canvas.setAttribute("id", "canvas");
 canvas.fillStyle = "#000000";
+// canvas.z-index = 0;
 
 var context = canvas.getContext('2d');
 
@@ -240,14 +235,33 @@ Player.prototype.update = function () {
   for (var key in keysDown) {
     var value = Number(key);
 
+    var rightArrow = 19;
+    var leftArrow = 19;
+
     if (value == 38) {
       // 'up' arrow
       this.paddle.move(-4, 0);
     } else if (value == 40) {
       // 'down' arrow
       this.paddle.move(4, 0);
+    } else if (value == 67) {
+      console.log("Hit the C button");
+      console.log(_rightArrow);
+      console.log(_leftArrow);
+      var _rightArrow = 39;
+      console.log(_rightArrow);
+      var _leftArrow = 37;
+      console.log(_leftArrow);
+    } else if (value == leftArrow) {
+      console.log("jeeleo");
+      this.paddle.move(0, -4);
+    } else if (value == rightArrow) {
+      this.paddle.move(0, 4);
     } else {
       this.paddle.move(0, 0);
+    }
+    if (value == 32) {
+      window.location.href = 'http://localhost:3000';
     }
   }
 };
@@ -270,6 +284,13 @@ var beep = new Audio('./public/Sounds/Boop.wav');
 var boop = new Audio('./public/Sounds/Beep.wav');
 var winner = new Audio('./public/Sounds/Tasty_Shot.wav');
 var loser = new Audio('./public/Sounds/Better_Luck.wav');
+
+// ya dancer
+// ya beauty
+// gon yersel sir
+
+// ooftt whats that all about
+
 
 //Score Records
 var playerScore = 0;
@@ -324,7 +345,7 @@ Ball.prototype.update = function (playerPaddle, computerPaddle) {
 
   //------Ball Collition Dynamics------//
 
-  if (ballLeft_X < 450) {
+  if (ballLeft_Y < 450) {
     // To asses which side the ball is at.
     // console.log("Left hand side")
 

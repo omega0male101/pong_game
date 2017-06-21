@@ -1,5 +1,3 @@
-// let update = require('./update')
-
 
 /////////////////////////////////////////////////////
 //------------------Starting App-------------------//
@@ -34,18 +32,14 @@
 
 
     //Appending all elements to HTML page
-    
     canvasContainerDiv.appendChild(canvas);
     topWrapper.appendChild(scorePlayerDiv);
     topWrapper.appendChild(canvasContainerDiv);
     topWrapper.appendChild(scoreComputerDiv);
-    
     toneDiv.appendChild(toneToggle);
     toneDiv.appendChild(toneText);
     audioDiv.appendChild(audioText);
     audioDiv.appendChild(audioToggle);
-    
-
     bottomWrapper.appendChild(toneDiv);
     bottomWrapper.appendChild(audioDiv);
 
@@ -60,7 +54,7 @@
     //Background Music
     let audio1 = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
     audio1.play()
-    audio1.volume=0.2;
+    audio1.volume=0.1;
   };
 
   let step = function() {
@@ -98,6 +92,7 @@
       canvas.height = height;
       canvas.setAttribute("id", "canvas");
       canvas.fillStyle = "#000000";
+      // canvas.z-index = 0;
 
     let context = canvas.getContext('2d');
 
@@ -174,13 +169,33 @@ Player.prototype.update = function() {
   for(let key in keysDown) {
     let value = Number(key);
 
+    var rightArrow = 19
+    var leftArrow = 19
+
     if(value == 38) { // 'up' arrow
       this.paddle.move(-4, 0);
     } else if (value == 40) { // 'down' arrow
       this.paddle.move(4, 0);
+    } else if (value == 67) { 
+        console.log("Hit the C button")
+        console.log(rightArrow)
+        console.log(leftArrow)
+        let rightArrow = 39;
+        console.log(rightArrow)
+        let leftArrow = 37;
+        console.log(leftArrow)
+    } else if (value == leftArrow) { 
+      console.log("jeeleo")
+      this.paddle.move(0, -4);
+    } else if (value == rightArrow) { 
+      this.paddle.move(0, 4);  
     } else {
       this.paddle.move(0, 0);
     }
+    if(value == 32) {
+      window.location.href = 'http://localhost:3000';
+    }
+
   }
 };
 
@@ -202,6 +217,21 @@ let keysDown = {};
   let boop = new Audio('./public/Sounds/Beep.wav');
   let winner = new Audio('./public/Sounds/Tasty_Shot.wav');
   let loser = new Audio('./public/Sounds/Better_Luck.wav');
+
+
+
+  // ya dancer
+  // ya beauty
+  // gon yersel sir
+
+  // ooftt whats that all about
+
+
+
+
+
+
+
 
   //Score Records
   let playerScore = 0;
@@ -254,7 +284,7 @@ let keysDown = {};
 
     //------Ball Collition Dynamics------//
     
-    if(ballLeft_X < 450){// To asses which side the ball is at.
+    if(ballLeft_Y < 450){// To asses which side the ball is at.
       // console.log("Left hand side")
 
     //<<<<<<<<<<<<<<PLAYER TURN>>>>>>>>>>>>//
@@ -390,8 +420,6 @@ let keysDown = {};
       }
       isToneEnabled = !isToneEnabled;
     });
-
-
 
 //----------------------Features-------------------//
 /////////////////////////////////////////////////////
