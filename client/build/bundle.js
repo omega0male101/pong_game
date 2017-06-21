@@ -285,13 +285,6 @@ var boop = new Audio('./public/Sounds/Beep.wav');
 var winner = new Audio('./public/Sounds/Tasty_Shot.wav');
 var loser = new Audio('./public/Sounds/Better_Luck.wav');
 
-// ya dancer
-// ya beauty
-// gon yersel sir
-
-// ooftt whats that all about
-
-
 //Score Records
 var playerScore = 0;
 var computerScore = 0;
