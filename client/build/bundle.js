@@ -345,7 +345,7 @@ Ball.prototype.update = function (playerPaddle, computerPaddle) {
 
   //------Ball Collition Dynamics------//
 
-  if (ballLeft_Y < 450) {
+  if (ballLeft_X < 450) {
     // To asses which side the ball is at.
     // console.log("Left hand side")
 

@@ -284,7 +284,7 @@ let keysDown = {};
 
     //------Ball Collition Dynamics------//
     
-    if(ballLeft_Y < 450){// To asses which side the ball is at.
+    if(ballLeft_X < 450){// To asses which side the ball is at.
       // console.log("Left hand side")
 
     //<<<<<<<<<<<<<<PLAYER TURN>>>>>>>>>>>>//
